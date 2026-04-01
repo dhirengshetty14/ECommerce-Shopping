@@ -36,6 +36,13 @@ class Login : AppCompatActivity() {
 
             viewModel.login(email, password)
         }
+        binding.tvIdhaccount.setOnClickListener {
+            val intent= Intent(this, Register::class.java)
+            startActivity(intent)
+        }
+        binding.tvForgotPwd.setOnClickListener {
+            Toast.makeText(this, "Forgot Password Clicked", Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun observeViewModel() {

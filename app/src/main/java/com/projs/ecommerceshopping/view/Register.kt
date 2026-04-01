@@ -39,7 +39,7 @@ class Register : AppCompatActivity() {
             viewModel.register(name, mobile, email, password)
         }
 
-        binding.tvLogin.setOnClickListener {
+        binding.tvHaveAccount.setOnClickListener {
             finish()
         }
     }
