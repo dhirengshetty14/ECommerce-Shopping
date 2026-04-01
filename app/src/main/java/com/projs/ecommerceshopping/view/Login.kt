@@ -7,18 +7,27 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.projs.ecommerceshopping.databinding.ActivityLoginBinding
 import com.projs.ecommerceshopping.repository.AuthRepository
+import com.projs.ecommerceshopping.utils.SessionManager
 import com.projs.ecommerceshopping.viewmodel.AuthViewModel
 import com.projs.ecommerceshopping.viewmodel.AuthViewModelFactory
 
 class Login : AppCompatActivity() {
     lateinit var binding: ActivityLoginBinding
     private lateinit var viewModel: AuthViewModel
+    private lateinit var session: SessionManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        session = SessionManager(this)
+        if(session.isLoggedIn()){
+            startActivity(Intent(this, Home::class.java))
+            finish()
+            return
+        }
 
         val repository = AuthRepository()
         val factory = AuthViewModelFactory(repository)
@@ -48,7 +57,15 @@ class Login : AppCompatActivity() {
     private fun observeViewModel() {
 
         viewModel.loginResult.observe(this) {
-            if (it.status == 0) {
+            if (it.status == 0 && it.user!=null) {
+                //saving session
+                session.saveUser(
+                    it.user.user_id,
+                    it.user.full_name,
+                    it.user.email_id
+                )
+                Toast.makeText(this, "Login Successful", Toast.LENGTH_SHORT).show()
+
                 startActivity(Intent(this, Home::class.java))
                 finish()
             } else {
