@@ -1,4 +1,4 @@
-package com.projs.ecommerceshopping.model
+package com.projs.ecommerceshopping.model.response
 
 data class User(
     val user_id: String,
