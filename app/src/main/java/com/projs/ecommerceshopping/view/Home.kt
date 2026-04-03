@@ -39,10 +39,21 @@ class Home : AppCompatActivity() {
 
     private fun setupListeners() {
 
-        binding.btnLogout.setOnClickListener {
+        binding.ivMenu.setOnClickListener {
+            binding.drawerLayout.openDrawer(androidx.core.view.GravityCompat.START)
+        }
 
+        binding.ivSearch.setOnClickListener {
+            binding.searchLayout.visibility = android.view.View.VISIBLE
+        }
+
+        binding.ivClear.setOnClickListener {
+            binding.searchLayout.visibility = android.view.View.GONE
+            binding.etSearch.setText("")
+        }
+
+        binding.tvLogout.setOnClickListener {
             session.logout()
-
             startActivity(Intent(this, Login::class.java))
             finish()
         }
