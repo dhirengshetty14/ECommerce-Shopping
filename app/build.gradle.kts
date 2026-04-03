@@ -59,6 +59,7 @@ dependencies {
     implementation("androidx.recyclerview:recyclerview:1.3.2")
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
+    implementation("androidx.viewpager2:viewpager2:1.0.0")
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
     testImplementation(libs.junit)
