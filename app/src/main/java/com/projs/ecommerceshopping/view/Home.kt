@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.projs.ecommerceshopping.databinding.ActivityHomeBinding
+import com.projs.ecommerceshopping.model.CartFragment
 import com.projs.ecommerceshopping.model.CategoryFragment
 import com.projs.ecommerceshopping.repository.CategoryRepository
 import com.projs.ecommerceshopping.utils.SessionManager
@@ -18,67 +19,69 @@ import com.projs.ecommerceshopping.viewmodel.HomeViewModel
 import com.projs.ecommerceshopping.viewmodel.HomeViewModelFactory
 
 class Home : AppCompatActivity() {
+
     lateinit var binding: ActivityHomeBinding
     private lateinit var session: SessionManager
-  //  private lateinit var viewModel: HomeViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         session = SessionManager(this)
 
-//        val repository = CategoryRepository()
-//        val factory = HomeViewModelFactory(repository)
-//        viewModel = ViewModelProvider(this, factory)[HomeViewModel::class.java]
-
         setupListeners()
+        setupDrawer()
+
+        // Default screen
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragmentContainer, CategoryFragment())
             .commit()
-
-       // setupRecyclerView()
-       // observeViewModel()
-
-      //  viewModel.fetchCategories()
     }
 
     private fun setupListeners() {
 
         binding.ivMenu.setOnClickListener {
-            binding.drawerLayout.openDrawer(androidx.core.view.GravityCompat.START)
+            binding.drawerLayout.openDrawer(GravityCompat.START)
         }
 
         binding.ivSearch.setOnClickListener {
-            binding.searchLayout.visibility = android.view.View.VISIBLE
+            binding.searchLayout.visibility = View.VISIBLE
         }
 
         binding.ivClear.setOnClickListener {
-            binding.searchLayout.visibility = android.view.View.GONE
+            binding.searchLayout.visibility = View.GONE
             binding.etSearch.setText("")
-        }
-
-        binding.tvLogout.setOnClickListener {
-            session.logout()
-            startActivity(Intent(this, Login::class.java))
-            finish()
         }
     }
 
-//    private fun setupRecyclerView() {
-//        binding.rvCategories.layoutManager = GridLayoutManager(this, 2)
-//    }
+    private fun setupDrawer() {
 
-//    private fun observeViewModel() {
-//
-//        viewModel.categories.observe(this) {
-//            binding.rvCategories.adapter = CategoryAdapter(it)
-//        }
-//
-//        viewModel.error.observe(this) {
-//            Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
-//        }
-//    }
+        binding.navigationView.setNavigationItemSelectedListener {
+
+            when (it.itemId) {
+
+                R.id.nav_home -> {
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.fragmentContainer, CategoryFragment())
+                        .commit()
+                }
+
+                R.id.nav_cart -> {
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.fragmentContainer, CartFragment())
+                        .commit()
+                }
+
+                R.id.nav_logout -> {
+                    session.logout()
+                    startActivity(Intent(this, Login::class.java))
+                    finish()
+                }
+            }
+
+            binding.drawerLayout.closeDrawers()
+            true
+        }
+    }
 }

@@ -1,14 +1,20 @@
 package com.projs.ecommerceshopping.model
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.projs.ecommerceshopping.databinding.ItemProductBinding
+import com.projs.ecommerceshopping.model.local.CartItem
 import com.projs.ecommerceshopping.model.response.Product
 
 class ProductAdapter(
-    private val list: List<Product>
+    private val products: List<Product>,
+    private val cartItems: List<CartItem>,
+    private val onAdd: (CartItem) -> Unit,
+    private val onIncrease: (CartItem) -> Unit,
+    private val onDecrease: (CartItem) -> Unit
 ) : RecyclerView.Adapter<ProductAdapter.ViewHolder>() {
 
     class ViewHolder(val binding: ItemProductBinding) :
@@ -23,19 +29,55 @@ class ProductAdapter(
         return ViewHolder(binding)
     }
 
-    override fun getItemCount() = list.size
+    override fun getItemCount() = products.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
-        val item = list[position]
+        val product = products[position]
 
-        holder.binding.tvName.text = item.product_name
-        holder.binding.tvDesc.text = item.description
-        holder.binding.tvPrice.text = "$${item.price}"
+        holder.binding.tvName.text = product.product_name
+        holder.binding.tvDesc.text = product.description
+        holder.binding.tvPrice.text = "$${product.price}"
 
         Glide.with(holder.itemView.context)
-            .load("http://103.163.198.93/myshop/images/" + item.product_image_url)
+            .load("http://103.163.198.93/myshop/images/" + product.product_image_url)
             .error(android.R.drawable.ic_dialog_alert)
             .into(holder.binding.ivProduct)
+
+        val cartItem = cartItems.find { it.product_id == product.product_id }
+
+        if (cartItem != null) {
+
+            holder.binding.tvAddToCart.visibility = View.GONE
+            holder.binding.layoutQuantity.visibility = View.VISIBLE
+
+            holder.binding.tvQty.text = cartItem.quantity.toString()
+
+            holder.binding.btnPlus.setOnClickListener {
+                onIncrease(cartItem)
+            }
+
+            holder.binding.btnMinus.setOnClickListener {
+                onDecrease(cartItem)
+            }
+
+        } else {
+
+            holder.binding.tvAddToCart.visibility = View.VISIBLE
+            holder.binding.layoutQuantity.visibility = View.GONE
+
+            holder.binding.tvAddToCart.setOnClickListener {
+
+                val item = CartItem(
+                    product_id = product.product_id,
+                    product_name = product.product_name,
+                    price = product.price,
+                    image = product.product_image_url,
+                    quantity = 1
+                )
+
+                onAdd(item)
+            }
+        }
     }
 }

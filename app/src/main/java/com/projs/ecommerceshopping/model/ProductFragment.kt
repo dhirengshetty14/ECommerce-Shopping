@@ -10,7 +10,12 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.projs.ecommerceshopping.R
 import com.projs.ecommerceshopping.databinding.FragmentProductBinding
+import com.projs.ecommerceshopping.model.local.AppDatabase
+import com.projs.ecommerceshopping.repository.CartRepository
+import com.projs.ecommerceshopping.repository.ICartRepository
 import com.projs.ecommerceshopping.repository.ProductRepository
+import com.projs.ecommerceshopping.viewmodel.CartViewModel
+import com.projs.ecommerceshopping.viewmodel.CartViewModelFactory
 import com.projs.ecommerceshopping.viewmodel.ProductViewModel
 import com.projs.ecommerceshopping.viewmodel.ProductViewModelFactory
 
@@ -43,23 +48,56 @@ class ProductFragment : Fragment() {
 
         binding = FragmentProductBinding.inflate(inflater, container, false)
 
-        val repository = ProductRepository()
-        val factory = ProductViewModelFactory(repository)
-        viewModel = ViewModelProvider(this, factory)[ProductViewModel::class.java]
+        val productRepository = ProductRepository()
+        val productFactory = ProductViewModelFactory(productRepository)
+        viewModel = ViewModelProvider(this, productFactory)[ProductViewModel::class.java]
+
+        val db = AppDatabase.getDatabase(requireContext())
+        val cartRepository: ICartRepository = CartRepository(db.cartDao())
+
+        val cartViewModel = ViewModelProvider(
+            this,
+            CartViewModelFactory(cartRepository)
+        )[CartViewModel::class.java]
 
         binding.rvProducts.layoutManager = LinearLayoutManager(requireContext())
 
-        observeViewModel()
+        observeViewModel(cartViewModel)
 
         viewModel.fetchProducts(subCategoryId)
 
         return binding.root
     }
 
-    private fun observeViewModel() {
+    private fun observeViewModel(cartViewModel: CartViewModel) {
 
-        viewModel.products.observe(viewLifecycleOwner) {
-            binding.rvProducts.adapter = ProductAdapter(it)
+        cartViewModel.cartItems.observe(viewLifecycleOwner) { cartList ->
+
+            viewModel.products.observe(viewLifecycleOwner) { products ->
+
+                binding.rvProducts.adapter = ProductAdapter(
+                    products,
+                    cartList,
+
+                    onAdd = {
+                        cartViewModel.insert(it)
+                    },
+
+                    onIncrease = {
+                        it.quantity++
+                        cartViewModel.update(it)
+                    },
+
+                    onDecrease = {
+                        if (it.quantity > 1) {
+                            it.quantity--
+                            cartViewModel.update(it)
+                        } else {
+                            cartViewModel.delete(it)
+                        }
+                    }
+                )
+            }
         }
 
         viewModel.error.observe(viewLifecycleOwner) {
