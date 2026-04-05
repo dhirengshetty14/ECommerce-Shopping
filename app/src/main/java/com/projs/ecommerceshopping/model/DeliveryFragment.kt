@@ -24,6 +24,9 @@ class DeliveryFragment : Fragment() {
         binding.radioOffice.setOnClickListener {
             selectedAddress = "OFFICE\nCottonwood Creek Mall..."
         }
+        binding.btnNextDelivery.setOnClickListener {
+            (parentFragment as CheckoutFragment).goToTab(2)
+        }
 
         return binding.root
     }

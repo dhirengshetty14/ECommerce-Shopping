@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.google.android.material.tabs.TabLayoutMediator
 import com.projs.ecommerceshopping.databinding.FragmentCheckoutBinding
+import com.projs.ecommerceshopping.view.Home
 
 class CheckoutFragment : Fragment() {
 
@@ -35,4 +36,12 @@ class CheckoutFragment : Fragment() {
 
         return binding.root
     }
+    override fun onResume() {
+        super.onResume()
+        (activity as Home).setToolbarTitle("CHECKOUT")
+    }
+    fun goToTab(position: Int) {
+        binding.viewPager.currentItem = position
+    }
+
 }

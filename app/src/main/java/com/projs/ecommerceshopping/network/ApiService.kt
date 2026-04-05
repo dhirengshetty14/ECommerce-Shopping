@@ -1,4 +1,4 @@
-package com.projs.ecommerceshopping.model
+package com.projs.ecommerceshopping.network
 
 import com.projs.ecommerceshopping.model.response.CategoryResponse
 import com.projs.ecommerceshopping.model.response.LoginRequest
@@ -6,7 +6,6 @@ import com.projs.ecommerceshopping.model.response.LoginResponse
 import com.projs.ecommerceshopping.model.response.ProductResponse
 import com.projs.ecommerceshopping.model.response.RegisterRequest
 import com.projs.ecommerceshopping.model.response.SubCategoryResponse
-import com.projs.ecommerceshopping.network.ApiResponse
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST

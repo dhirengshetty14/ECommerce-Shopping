@@ -78,4 +78,7 @@ class Home : AppCompatActivity() {
             true
         }
     }
+    fun setToolbarTitle(title: String) {
+        binding.tvTitle.text = title
+    }
 }

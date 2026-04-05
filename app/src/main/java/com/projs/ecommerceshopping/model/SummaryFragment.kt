@@ -6,6 +6,8 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.projs.ecommerceshopping.R
+import com.projs.ecommerceshopping.adapter.CartReadonlyAdapter
 import com.projs.ecommerceshopping.databinding.FragmentSummaryBinding
 import com.projs.ecommerceshopping.model.local.AppDatabase
 import com.projs.ecommerceshopping.repository.*
@@ -29,7 +31,7 @@ class SummaryFragment : Fragment() {
 
         cartViewModel.cartItems.observe(viewLifecycleOwner) { list ->
 
-            binding.rvSummary.adapter = CartAdapter(list, {}, {})
+            binding.rvSummary.adapter = CartReadonlyAdapter(list)
 
             val total = list.sumOf { it.price.toInt() * it.quantity }
             binding.tvTotal.text = "$$total"
@@ -43,7 +45,7 @@ class SummaryFragment : Fragment() {
             Toast.makeText(requireContext(), "Order Placed!", Toast.LENGTH_SHORT).show()
 
             parentFragmentManager.beginTransaction()
-                .replace(com.projs.ecommerceshopping.R.id.fragmentContainer, OrderSuccessFragment())
+                .replace(R.id.fragmentContainer, OrderSuccessFragment())
                 .commit()
         }
 

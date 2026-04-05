@@ -24,6 +24,9 @@ class PaymentFragment : Fragment() {
         binding.radioCard.setOnClickListener {
             selectedPayment = "Card"
         }
+        binding.btnNextPayment.setOnClickListener {
+            (parentFragment as CheckoutFragment).goToTab(3)
+        }
 
         return binding.root
     }
