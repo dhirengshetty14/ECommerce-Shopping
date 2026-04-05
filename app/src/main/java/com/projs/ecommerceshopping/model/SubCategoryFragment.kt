@@ -5,7 +5,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.google.android.material.tabs.TabLayoutMediator
 import com.projs.ecommerceshopping.R
+import com.projs.ecommerceshopping.databinding.FragmentSubCategoryBinding
 
 
 class SubCategoryFragment : Fragment() {
@@ -37,7 +39,21 @@ class SubCategoryFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+            val binding= FragmentSubCategoryBinding.inflate(inflater,
+                container,
+                false)
 
-        return inflater.inflate(R.layout.fragment_sub_category, container, false)
+        binding.tvTitle.text=categoryName
+
+        val tabs=listOf("Android","IPhone","Windows")
+
+        val adapter= SubCategoryPagerAdapter(this,tabs)
+        binding.viewPager.adapter=adapter
+
+        TabLayoutMediator(binding.tabLayout,binding.viewPager){tab, position ->
+            tab.text=tabs[position]
+        }.attach()
+
+        return binding.root
     }
 }
