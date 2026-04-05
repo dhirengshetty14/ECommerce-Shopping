@@ -5,12 +5,21 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.tabs.TabLayoutMediator
 import com.projs.ecommerceshopping.R
 import com.projs.ecommerceshopping.databinding.FragmentSubCategoryBinding
+import com.projs.ecommerceshopping.repository.SubCategoryRepository
+import com.projs.ecommerceshopping.viewmodel.SubCategoryViewModel
+import com.projs.ecommerceshopping.viewmodel.SubCategoryViewModelFactory
+
 
 
 class SubCategoryFragment : Fragment() {
+
+    private lateinit var binding: FragmentSubCategoryBinding
+    private lateinit var viewModel: SubCategoryViewModel
 
     private lateinit var categoryId: String
     private lateinit var categoryName: String
@@ -28,6 +37,7 @@ class SubCategoryFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         arguments?.let {
             categoryId = it.getString("id") ?: ""
             categoryName = it.getString("name") ?: ""
@@ -39,21 +49,36 @@ class SubCategoryFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-            val binding= FragmentSubCategoryBinding.inflate(inflater,
-                container,
-                false)
 
-        binding.tvTitle.text=categoryName
+        binding = FragmentSubCategoryBinding.inflate(inflater, container, false)
 
-        val tabs=listOf("Android","IPhone","Windows")
+        val repository = SubCategoryRepository()
+        val factory = SubCategoryViewModelFactory(repository)
+        viewModel = ViewModelProvider(this, factory)[SubCategoryViewModel::class.java]
 
-        val adapter= SubCategoryPagerAdapter(this,tabs)
-        binding.viewPager.adapter=adapter
+        binding.tvTitle.text = categoryName
 
-        TabLayoutMediator(binding.tabLayout,binding.viewPager){tab, position ->
-            tab.text=tabs[position]
-        }.attach()
+        observeViewModel()
+
+        viewModel.fetchSubCategories(categoryId)
 
         return binding.root
+    }
+
+    private fun observeViewModel() {
+
+        viewModel.subCategories.observe(viewLifecycleOwner) { list ->
+
+            val adapter = SubCategoryPagerAdapter(this, list)
+            binding.viewPager.adapter = adapter
+
+            TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
+                tab.text = list[position].subcategory_name
+            }.attach()
+        }
+
+        viewModel.error.observe(viewLifecycleOwner) {
+            Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
+        }
     }
 }

@@ -9,13 +9,13 @@ import com.projs.ecommerceshopping.R
 
 class ProductFragment : Fragment() {
 
-    private lateinit var subCategory: String
+    private lateinit var subCategoryId: String
 
     companion object {
-        fun newInstance(subCategory: String): ProductFragment {
+        fun newInstance(subCategoryId: String): ProductFragment {
             val fragment = ProductFragment()
             val bundle = Bundle()
-            bundle.putString("subCategory", subCategory)
+            bundle.putString("subCategoryId", subCategoryId)
             fragment.arguments = bundle
             return fragment
         }
@@ -23,7 +23,7 @@ class ProductFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        subCategory = arguments?.getString("subCategory") ?: ""
+        subCategoryId = arguments?.getString("subCategoryId") ?: ""
     }
 
     override fun onCreateView(
@@ -31,11 +31,6 @@ class ProductFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
-        val view = inflater.inflate(R.layout.fragment_product, container, false)
-
-        // TODO: load products using subCategory
-
-        return view
+        return inflater.inflate(R.layout.fragment_product, container, false)
     }
 }
