@@ -9,6 +9,7 @@ import com.projs.ecommerceshopping.R
 import com.projs.ecommerceshopping.databinding.ActivityHomeBinding
 import com.projs.ecommerceshopping.model.CategoryFragment
 import com.projs.ecommerceshopping.model.CartFragment
+import com.projs.ecommerceshopping.model.OrdersFragment
 import com.projs.ecommerceshopping.utils.SessionManager
 
 class Home : AppCompatActivity() {
@@ -27,7 +28,6 @@ class Home : AppCompatActivity() {
         setupListeners()
         setupDrawer()
 
-        // Default screen
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragmentContainer, CategoryFragment())
             .commit()
@@ -64,6 +64,12 @@ class Home : AppCompatActivity() {
                 R.id.nav_cart -> {
                     supportFragmentManager.beginTransaction()
                         .replace(R.id.fragmentContainer, CartFragment())
+                        .commit()
+                }
+
+                R.id.nav_orders -> {
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.fragmentContainer, OrdersFragment())
                         .commit()
                 }
 

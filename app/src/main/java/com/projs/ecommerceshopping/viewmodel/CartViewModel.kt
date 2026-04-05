@@ -24,6 +24,11 @@ class CartViewModel(
     fun delete(item: CartItem) = viewModelScope.launch {
         repository.delete(item)
     }
+    fun clearCart() {
+        viewModelScope.launch {
+            repository.clearCart()
+        }
+    }
 }
 
 class CartViewModelFactory(

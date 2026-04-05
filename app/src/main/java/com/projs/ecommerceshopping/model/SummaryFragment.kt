@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.projs.ecommerceshopping.R
 import com.projs.ecommerceshopping.adapter.CartReadonlyAdapter
 import com.projs.ecommerceshopping.databinding.FragmentSummaryBinding
-import com.projs.ecommerceshopping.model.local.AppDatabase
+import com.projs.ecommerceshopping.model.local.*
 import com.projs.ecommerceshopping.repository.*
 import com.projs.ecommerceshopping.viewmodel.*
 
@@ -23,9 +23,16 @@ class SummaryFragment : Fragment() {
         binding = FragmentSummaryBinding.inflate(inflater, container, false)
 
         val db = AppDatabase.getDatabase(requireContext())
-        val repo: ICartRepository = CartRepository(db.cartDao())
 
-        cartViewModel = ViewModelProvider(this, CartViewModelFactory(repo))[CartViewModel::class.java]
+        val cartRepo: ICartRepository = CartRepository(db.cartDao())
+        val orderRepo: IOrderRepository = OrderRepository(db.orderDao())
+
+        cartViewModel = ViewModelProvider(this, CartViewModelFactory(cartRepo))[CartViewModel::class.java]
+
+        val orderViewModel = ViewModelProvider(
+            this,
+            OrderViewModelFactory(orderRepo)
+        )[OrderViewModel::class.java]
 
         binding.rvSummary.layoutManager = LinearLayoutManager(requireContext())
 
@@ -33,7 +40,7 @@ class SummaryFragment : Fragment() {
 
             binding.rvSummary.adapter = CartReadonlyAdapter(list)
 
-            val total = list.sumOf { it.price.toInt() * it.quantity }
+            val total = list.sumOf { it.price.toDouble() * it.quantity }
             binding.tvTotal.text = "$$total"
         }
 
@@ -42,9 +49,36 @@ class SummaryFragment : Fragment() {
 
         binding.btnPlaceOrder.setOnClickListener {
 
+            val cartItems = cartViewModel.cartItems.value ?: emptyList()
+
+            val total = cartItems.sumOf { it.price.toDouble() * it.quantity }
+
+            val order = OrderEntity(
+                totalAmount = total,
+                address = DeliveryFragment.selectedAddress,
+                paymentMethod = PaymentFragment.selectedPayment
+            )
+
+            val orderItems = cartItems.map {
+
+                OrderItemEntity(
+                    orderId = 0,
+                    productName = it.product_name,
+
+                    price = it.price.toDouble(),
+
+                    quantity = it.quantity,
+                    image = it.image
+                )
+            }
+
+            orderViewModel.placeOrder(order, orderItems)
+
+            cartViewModel.clearCart()
+
             Toast.makeText(requireContext(), "Order Placed!", Toast.LENGTH_SHORT).show()
 
-            parentFragmentManager.beginTransaction()
+            requireActivity().supportFragmentManager.beginTransaction()
                 .replace(R.id.fragmentContainer, OrderSuccessFragment())
                 .commit()
         }

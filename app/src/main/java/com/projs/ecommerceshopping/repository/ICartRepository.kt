@@ -12,4 +12,6 @@ interface ICartRepository {
     suspend fun update(item: CartItem)
 
     suspend fun delete(item: CartItem)
+
+    suspend fun clearCart()
 }

@@ -19,4 +19,8 @@ class CartRepository(private val dao: CartDao) : ICartRepository {
     override suspend fun delete(item: CartItem) {
         dao.delete(item)
     }
+
+    override suspend fun clearCart() {
+        dao.clearCart()
+    }
 }

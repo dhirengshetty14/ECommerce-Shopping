@@ -1,9 +1,7 @@
 package com.projs.ecommerceshopping.model.local
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.Query
+import androidx.room.*
 
 @Dao
 interface OrderDao {
@@ -16,4 +14,7 @@ interface OrderDao {
 
     @Query("SELECT * FROM orders ORDER BY orderId DESC")
     fun getOrders(): LiveData<List<OrderEntity>>
+
+    @Query("SELECT * FROM order_items WHERE orderId = :orderId")
+    suspend fun getItemsForOrder(orderId: Int): List<OrderItemEntity>
 }

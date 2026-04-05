@@ -74,7 +74,7 @@
             android:layout_height="match_parent"/>
     </LinearLayout>
 
-    <!-- ✅ NAVIGATION DRAWER -->
+    <!--  NAVIGATION DRAWER -->
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/navigationView"
         android:layout_width="280dp"

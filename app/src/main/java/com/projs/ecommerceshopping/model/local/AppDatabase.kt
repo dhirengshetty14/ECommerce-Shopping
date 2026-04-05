@@ -5,10 +5,14 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
-@Database(entities = [CartItem::class], version = 1)
+@Database(
+    entities = [CartItem::class, OrderEntity::class, OrderItemEntity::class],
+    version = 2
+)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun cartDao(): CartDao
+    abstract fun orderDao(): OrderDao
 
     companion object {
 
@@ -22,7 +26,8 @@ abstract class AppDatabase : RoomDatabase() {
                     context.applicationContext,
                     AppDatabase::class.java,
                     "cart_db"
-                ).build()
+                ).fallbackToDestructiveMigration()
+                    .build()
 
                 INSTANCE = instance
                 instance
