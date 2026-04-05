@@ -1,5 +1,6 @@
-package com.projs.ecommerceshopping.model
+package com.projs.ecommerceshopping.network
 
+import com.projs.ecommerceshopping.model.ApiService
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
