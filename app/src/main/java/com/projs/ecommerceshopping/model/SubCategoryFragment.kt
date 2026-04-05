@@ -38,6 +38,6 @@ class SubCategoryFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
-        return inflater.inflate(R.layout.fragment_subcategory, container, false)
+        return inflater.inflate(R.layout.fragment_sub_category, container, false)
     }
 }
