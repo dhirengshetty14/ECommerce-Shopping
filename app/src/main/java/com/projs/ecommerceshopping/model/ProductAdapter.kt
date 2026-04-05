@@ -26,13 +26,16 @@ class ProductAdapter(
     override fun getItemCount() = list.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+
         val item = list[position]
 
         holder.binding.tvName.text = item.product_name
+        holder.binding.tvDesc.text = item.description
         holder.binding.tvPrice.text = "$${item.price}"
 
         Glide.with(holder.itemView.context)
             .load("http://103.163.198.93/myshop/images/" + item.product_image_url)
+            .error(android.R.drawable.ic_dialog_alert)
             .into(holder.binding.ivProduct)
     }
 }
