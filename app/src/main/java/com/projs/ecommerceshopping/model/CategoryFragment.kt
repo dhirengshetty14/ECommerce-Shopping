@@ -13,7 +13,7 @@ import com.projs.ecommerceshopping.repository.CategoryRepository
 import com.projs.ecommerceshopping.view.CategoryAdapter
 import com.projs.ecommerceshopping.viewmodel.HomeViewModel
 import com.projs.ecommerceshopping.viewmodel.HomeViewModelFactory
-
+import com.projs.ecommerceshopping.model.response.Category
 
 class CategoryFragment : Fragment() {
 
@@ -46,7 +46,21 @@ class CategoryFragment : Fragment() {
 
     private fun observeViewModel() {
         viewModel.categories.observe(viewLifecycleOwner) {
-            binding.rvCategories.adapter = CategoryAdapter(it)
+            binding.rvCategories.adapter = CategoryAdapter(it) { category ->
+                openSubCategory(category)
+            }
         }
+    }
+
+    private fun openSubCategory(category: com.projs.ecommerceshopping.model.response.Category) {
+        val fragment = SubCategoryFragment.newInstance(
+            category.category_id,
+            category.category_name
+        )
+
+        parentFragmentManager.beginTransaction()
+            .replace(R.id.fragmentContainer, fragment)
+            .addToBackStack(null)
+            .commit()
     }
 }

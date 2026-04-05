@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ECommerceShopping">
         <activity
-            android:name=".view.Home"
+            android:name=".view.Login"
             android:exported="false" />
         <activity
             android:name=".view.Register"
@@ -22,7 +22,7 @@
             android:name=".view.MainActivity"
             android:exported="false" />
         <activity
-            android:name=".view.Login"
+            android:name=".view.Home"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
