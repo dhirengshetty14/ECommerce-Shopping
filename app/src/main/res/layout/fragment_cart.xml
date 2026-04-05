@@ -18,5 +18,10 @@
         android:text="Total: $0"
         android:textSize="18sp"
         android:padding="16dp"/>
+    <Button
+        android:id="@+id/btnCheckout"
+        android:text="CHECKOUT"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 
 </LinearLayout>

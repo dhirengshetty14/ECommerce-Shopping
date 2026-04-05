@@ -2,29 +2,23 @@ package com.projs.ecommerceshopping.view
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import android.view.View
-import com.projs.ecommerceshopping.R
-import androidx.core.view.GravityCompat
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.GridLayoutManager
+import androidx.core.view.GravityCompat
+import com.projs.ecommerceshopping.R
 import com.projs.ecommerceshopping.databinding.ActivityHomeBinding
-import com.projs.ecommerceshopping.model.CartFragment
 import com.projs.ecommerceshopping.model.CategoryFragment
-import com.projs.ecommerceshopping.repository.CategoryRepository
+import com.projs.ecommerceshopping.model.CartFragment
 import com.projs.ecommerceshopping.utils.SessionManager
-import com.projs.ecommerceshopping.viewmodel.HomeViewModel
-import com.projs.ecommerceshopping.viewmodel.HomeViewModelFactory
 
 class Home : AppCompatActivity() {
 
-    lateinit var binding: ActivityHomeBinding
+    private lateinit var binding: ActivityHomeBinding
     private lateinit var session: SessionManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 

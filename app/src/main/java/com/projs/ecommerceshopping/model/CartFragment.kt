@@ -1,10 +1,10 @@
 package com.projs.ecommerceshopping.model
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.projs.ecommerceshopping.R
@@ -14,7 +14,6 @@ import com.projs.ecommerceshopping.repository.CartRepository
 import com.projs.ecommerceshopping.repository.ICartRepository
 import com.projs.ecommerceshopping.viewmodel.CartViewModel
 import com.projs.ecommerceshopping.viewmodel.CartViewModelFactory
-
 
 class CartFragment : Fragment() {
 
@@ -39,6 +38,7 @@ class CartFragment : Fragment() {
 
         setupRecyclerView()
         observeData()
+        setupCheckout()
 
         return binding.root
     }
@@ -66,9 +66,19 @@ class CartFragment : Fragment() {
                 }
             )
 
-            // 🔥 TOTAL CALCULATION
             val total = list.sumOf { it.price.toInt() * it.quantity }
             binding.tvTotal.text = "Total: $$total"
+        }
+    }
+
+    private fun setupCheckout() {
+
+        binding.btnCheckout.setOnClickListener {
+
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.fragmentContainer, CheckoutFragment())
+                .addToBackStack(null)
+                .commit()
         }
     }
 }

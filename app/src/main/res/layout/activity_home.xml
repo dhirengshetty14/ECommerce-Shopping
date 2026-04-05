@@ -4,177 +4,82 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/drawerLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fitsSystemWindows="true"> <LinearLayout
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#F8F9FA"> <RelativeLayout
-    android:layout_width="match_parent"
-    android:layout_height="64dp"
-    android:paddingHorizontal="16dp"
-    android:background="@android:color/white"
-    android:elevation="4dp"> <ImageView
-    android:id="@+id/ivMenu"
-    android:layout_width="32dp"
-    android:layout_height="32dp"
-    android:layout_centerVertical="true"
-    android:src="@android:drawable/ic_menu_sort_by_size"
-    android:layout_alignParentStart="true"/>
+    android:layout_height="match_parent">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="SUPER CART"
-        android:textStyle="bold"
-        android:textColor="@android:color/black"
-        android:textSize="20sp"
-        android:letterSpacing="0.05"
-        android:layout_centerInParent="true"/>
-
-    <ImageView
-        android:id="@+id/ivSearch"
-        android:layout_width="28dp"
-        android:layout_height="28dp"
-        android:layout_centerVertical="true"
-        android:src="@android:drawable/ic_menu_search"
-        android:layout_alignParentEnd="true"/>
-</RelativeLayout>
-
+    <!-- MAIN CONTENT -->
     <LinearLayout
-        android:id="@+id/searchLayout"
-        android:visibility="gone"
-        android:orientation="horizontal"
-        android:layout_margin="12dp"
-        android:padding="8dp"
-        android:background="@android:color/white"
-        android:elevation="2dp"
-        android:gravity="center_vertical"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
-        <EditText
-            android:id="@+id/etSearch"
-            android:hint="Search products..."
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            android:paddingStart="8dp"
-            android:textSize="16sp"/>
+        <!-- TOP BAR -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:padding="16dp">
 
-        <ImageView
-            android:id="@+id/ivClear"
-            android:layout_width="28dp"
-            android:layout_height="28dp"
-            android:src="@android:drawable/ic_menu_close_clear_cancel"/>
+            <ImageView
+                android:id="@+id/ivMenu"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:src="@android:drawable/ic_menu_sort_by_size"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="SUPER CART"
+                android:textSize="35sp"
+                android:textStyle="bold"
+                android:layout_centerInParent="true"/>
+
+            <ImageView
+                android:id="@+id/ivSearch"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:src="@android:drawable/ic_menu_search"/>
+        </RelativeLayout>
+
+        <!-- SEARCH BAR -->
+        <LinearLayout
+            android:id="@+id/searchLayout"
+            android:visibility="gone"
+            android:orientation="horizontal"
+            android:layout_margin="10dp"
+            android:padding="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/etSearch"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:hint="Search products..." />
+
+            <ImageView
+                android:id="@+id/ivClear"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:src="@android:drawable/ic_menu_close_clear_cancel"/>
+        </LinearLayout>
+
+        <!-- FRAGMENT CONTAINER -->
+        <FrameLayout
+            android:id="@+id/fragmentContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
     </LinearLayout>
 
-    <FrameLayout
-        android:id="@+id/fragmentContainer"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"/>
-
-<!--    <androidx.recyclerview.widget.RecyclerView-->
-<!--        android:id="@+id/rvCategories"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="0dp"-->
-<!--        android:layout_weight="1"-->
-<!--        android:clipToPadding="false"-->
-<!--        android:padding="8dp"/>-->
-</LinearLayout>
-
-    <LinearLayout
+    <!-- ✅ NAVIGATION DRAWER -->
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/navigationView"
         android:layout_width="280dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:orientation="vertical"
-        android:background="?android:attr/colorBackground"
-        android:clickable="true"
-        android:focusable="true">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:background="#3F51B5" android:padding="24dp">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:text="Welcome, John!"
-                android:textColor="@android:color/white"
-                android:textSize="22sp"
-                android:textStyle="bold"/>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="john@example.com"
-                android:textColor="#E0E0E0"
-                android:textSize="14sp"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:padding="16dp">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Home"
-                android:paddingVertical="14dp"
-                android:paddingHorizontal="8dp"
-                android:textSize="16sp"
-                android:textStyle="bold"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Cart"
-                android:paddingVertical="14dp"
-                android:paddingHorizontal="8dp"
-                android:textSize="16sp"
-                android:textStyle="bold"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Orders"
-                android:paddingVertical="14dp"
-                android:paddingHorizontal="8dp"
-                android:textSize="16sp"
-                android:textStyle="bold"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Profile"
-                android:paddingVertical="14dp"
-                android:paddingHorizontal="8dp"
-                android:textSize="16sp"
-                android:textStyle="bold"/>
-
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"/>
-
-            <TextView
-                android:id="@+id/tvLogout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Logout"
-                android:textColor="#D32F2F" android:paddingVertical="14dp"
-                android:paddingHorizontal="8dp"
-                android:clickable="true"
-                android:textSize="16sp"
-                android:textStyle="bold"/>
-        </LinearLayout>
-
-    </LinearLayout>
+        app:menu="@menu/nav_menu"/>
 
 </androidx.drawerlayout.widget.DrawerLayout>
