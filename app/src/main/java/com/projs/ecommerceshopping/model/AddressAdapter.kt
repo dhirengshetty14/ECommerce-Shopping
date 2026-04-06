@@ -50,6 +50,7 @@ class AddressAdapter(
 
     fun updateList(newList: MutableList<AddressEntity>) {
         list = newList
+        selectedPosition = 0
         notifyDataSetChanged()
     }
 }

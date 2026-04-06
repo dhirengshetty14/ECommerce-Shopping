@@ -1,13 +1,9 @@
 package com.projs.ecommerceshopping.viewmodel
-import androidx.lifecycle.*
 
-import kotlinx.coroutines.launch
 import androidx.lifecycle.*
 import com.projs.ecommerceshopping.model.local.AddressEntity
 import com.projs.ecommerceshopping.repository.IAddressRepository
 import kotlinx.coroutines.launch
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 
 class AddressViewModel(private val repo: IAddressRepository) : ViewModel() {
 
@@ -18,11 +14,21 @@ class AddressViewModel(private val repo: IAddressRepository) : ViewModel() {
             repo.insert(address)
         }
     }
+
+    fun fetchAddresses(userId: String) {
+        viewModelScope.launch {
+            repo.fetchAddresses(userId)
+        }
+    }
+
+    fun addAddress(userId: String, title: String, address: String) {
+        viewModelScope.launch {
+            repo.addAddressToServer(userId, title, address)
+        }
+    }
 }
 
-class AddressViewModelFactory(private val repo: IAddressRepository)
-    : ViewModelProvider.Factory {
-
+class AddressViewModelFactory(private val repo: IAddressRepository) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return AddressViewModel(repo) as T
     }

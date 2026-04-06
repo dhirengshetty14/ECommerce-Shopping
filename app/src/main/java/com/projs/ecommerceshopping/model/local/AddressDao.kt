@@ -14,4 +14,6 @@ interface AddressDao {
 
     @Delete
     suspend fun delete(address: AddressEntity)
+    @Query("DELETE FROM addresses")
+    suspend fun clearAll()
 }

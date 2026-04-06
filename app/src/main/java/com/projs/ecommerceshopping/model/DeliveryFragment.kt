@@ -1,3 +1,4 @@
+package com.projs.ecommerceshopping.model
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,19 +8,19 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.projs.ecommerceshopping.model.AddressAdapter
 import com.projs.ecommerceshopping.databinding.DialogAddAddressBinding
 import com.projs.ecommerceshopping.databinding.FragmentDeliveryBinding
+import com.projs.ecommerceshopping.model.AddressAdapter
 import com.projs.ecommerceshopping.model.CheckoutFragment
-import com.projs.ecommerceshopping.model.local.AddressEntity
 import com.projs.ecommerceshopping.model.local.AppDatabase
 import com.projs.ecommerceshopping.repository.AddressRepository
+import com.projs.ecommerceshopping.utils.SessionManager
 import com.projs.ecommerceshopping.viewmodel.AddressViewModel
 import com.projs.ecommerceshopping.viewmodel.AddressViewModelFactory
 
 class DeliveryFragment : Fragment() {
 
-        private lateinit var binding: FragmentDeliveryBinding
+    private lateinit var binding: FragmentDeliveryBinding
     private lateinit var viewModel: AddressViewModel
     private lateinit var adapter: AddressAdapter
 
@@ -45,8 +46,13 @@ class DeliveryFragment : Fragment() {
         setupRecycler()
         observeData()
 
+        val session = SessionManager(requireContext())
+        val userId = session.getUserId()
+
+        viewModel.fetchAddresses(userId)
+
         binding.btnAddAddress.setOnClickListener {
-            showAddAddressDialog()
+            showAddAddressDialog(userId)
         }
 
         binding.btnNextDelivery.setOnClickListener {
@@ -72,11 +78,12 @@ class DeliveryFragment : Fragment() {
 
             if (list.isNotEmpty()) {
                 selectedAddress = list[0].title + "\n" + list[0].address
+                adapter.notifyDataSetChanged()
             }
         }
     }
 
-    private fun showAddAddressDialog() {
+    private fun showAddAddressDialog(userId: String) {
 
         val dialogBinding = DialogAddAddressBinding.inflate(layoutInflater)
 
@@ -99,7 +106,7 @@ class DeliveryFragment : Fragment() {
                 return@setOnClickListener
             }
 
-            viewModel.insert(AddressEntity(title = title, address = address))
+            viewModel.addAddress(userId, title, address)
 
             dialog.dismiss()
         }

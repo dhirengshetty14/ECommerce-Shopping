@@ -1,5 +1,7 @@
 package com.projs.ecommerceshopping.remote
 
+import com.projs.ecommerceshopping.model.response.AddAddressRequest
+import com.projs.ecommerceshopping.model.response.AddressResponse
 import com.projs.ecommerceshopping.model.response.CategoryResponse
 import com.projs.ecommerceshopping.model.response.LoginRequest
 import com.projs.ecommerceshopping.model.response.LoginResponse
@@ -36,4 +38,13 @@ interface ApiService {
     suspend fun getProducts(
         @Path("sub_category_id") subCategoryId: String
     ): ProductResponse
+    @GET("User/addresses/{user_id}")
+    suspend fun getAddresses(
+        @Path("user_id") userId: String
+    ): AddressResponse
+
+    @POST("User/address")
+    suspend fun addAddress(
+        @Body request: AddAddressRequest
+    ): ApiResponse
 }
