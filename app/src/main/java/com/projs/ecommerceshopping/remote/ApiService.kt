@@ -5,6 +5,7 @@ import com.projs.ecommerceshopping.model.response.AddressResponse
 import com.projs.ecommerceshopping.model.response.CategoryResponse
 import com.projs.ecommerceshopping.model.response.LoginRequest
 import com.projs.ecommerceshopping.model.response.LoginResponse
+import com.projs.ecommerceshopping.model.response.ProductDetailsResponse
 import com.projs.ecommerceshopping.model.response.ProductResponse
 import com.projs.ecommerceshopping.model.response.ProductSearchResponse
 import com.projs.ecommerceshopping.model.response.RegisterRequest
@@ -51,4 +52,9 @@ interface ApiService {
     suspend fun searchProduct(
         @Query("query") query: String
     ): ProductSearchResponse
+
+    @GET("Product/details/{product_id}")
+    suspend fun getProductDetails(
+        @Path("product_id") productId: String
+    ): ProductDetailsResponse
 }

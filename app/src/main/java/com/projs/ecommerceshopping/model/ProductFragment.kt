@@ -5,7 +5,9 @@ import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.projs.ecommerceshopping.R
 import com.projs.ecommerceshopping.databinding.FragmentProductBinding
 import com.projs.ecommerceshopping.model.local.AppDatabase
 import com.projs.ecommerceshopping.repository.CartRepository
@@ -73,6 +75,13 @@ class ProductFragment : Fragment() {
                         } else {
                             cartVM.delete(it)
                         }
+                    },
+                    onItemClick = { product ->
+
+                        val bundle = Bundle().apply {
+                            putString("product_id", product.product_id)
+                        }
+                        findNavController().navigate(R.id.productDetailsFragment, bundle)
                     }
                 )
             }

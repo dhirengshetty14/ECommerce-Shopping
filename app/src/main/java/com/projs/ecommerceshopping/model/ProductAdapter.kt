@@ -14,7 +14,8 @@ class ProductAdapter(
     private val cartItems: List<CartItem>,
     private val onAdd: (CartItem) -> Unit,
     private val onIncrease: (CartItem) -> Unit,
-    private val onDecrease: (CartItem) -> Unit
+    private val onDecrease: (CartItem) -> Unit,
+    private val onItemClick: (Product) -> Unit
 ) : RecyclerView.Adapter<ProductAdapter.ViewHolder>() {
 
     class ViewHolder(val binding: ItemProductBinding) :
@@ -43,6 +44,10 @@ class ProductAdapter(
             .load("http://103.163.198.93/myshop/images/" + product.product_image_url)
             .error(android.R.drawable.ic_dialog_alert)
             .into(holder.binding.ivProduct)
+
+        holder.binding.root.setOnClickListener {
+            onItemClick(product)
+        }
 
         val cartItem = cartItems.find { it.product_id == product.product_id }
 

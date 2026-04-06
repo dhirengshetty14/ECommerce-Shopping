@@ -1,5 +1,6 @@
 package com.projs.ecommerceshopping.repository
 
+import com.projs.ecommerceshopping.model.response.ProductDetailsResponse
 import com.projs.ecommerceshopping.model.response.ProductResponse
 import com.projs.ecommerceshopping.model.response.ProductSearchResponse
 import com.projs.ecommerceshopping.remote.ApiClient
@@ -13,5 +14,9 @@ class ProductRepository : IProductRepository {
     override suspend fun searchProduct(query: String): ProductSearchResponse {
             return ApiClient.apiService.searchProduct(query)
 
+
+    }
+    override suspend fun getProductDetails(productId: String): ProductDetailsResponse {
+        return ApiClient.apiService.getProductDetails(productId)
     }
 }

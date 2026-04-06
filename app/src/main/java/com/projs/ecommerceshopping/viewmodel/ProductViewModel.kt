@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.projs.ecommerceshopping.model.response.Product
+import com.projs.ecommerceshopping.model.response.ProductDetails
 import com.projs.ecommerceshopping.repository.IProductRepository
 import kotlinx.coroutines.launch
 
@@ -15,6 +16,9 @@ class ProductViewModel(
     val products = MutableLiveData<List<Product>>()
     val error = MutableLiveData<String>()
     val searchResults = MutableLiveData<List<Product>>()
+
+    val productDetails = MutableLiveData<ProductDetails>()
+
     private var fullList: List<Product> = emptyList()
 
     fun fetchProducts(subCategoryId: String) {
@@ -33,6 +37,20 @@ class ProductViewModel(
             }
         }
     }
+
+    fun fetchProductDetails(productId: String) {
+        viewModelScope.launch {
+            try {
+                val response = repository.getProductDetails(productId)
+                if (response.status == 0) {
+                    productDetails.value = response.product
+                }
+            } catch (e: Exception) {
+                error.value = e.message
+            }
+        }
+    }
+
     fun search(query: String) {
         viewModelScope.launch {
             try {
