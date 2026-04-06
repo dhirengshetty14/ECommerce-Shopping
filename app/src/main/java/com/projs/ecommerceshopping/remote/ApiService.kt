@@ -1,4 +1,4 @@
-package com.projs.ecommerceshopping.network
+package com.projs.ecommerceshopping.remote
 
 import com.projs.ecommerceshopping.model.response.CategoryResponse
 import com.projs.ecommerceshopping.model.response.LoginRequest
