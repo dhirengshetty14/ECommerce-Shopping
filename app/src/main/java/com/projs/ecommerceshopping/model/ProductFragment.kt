@@ -1,107 +1,76 @@
 package com.projs.ecommerceshopping.model
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.Toast
+import android.view.*
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.projs.ecommerceshopping.R
 import com.projs.ecommerceshopping.databinding.FragmentProductBinding
 import com.projs.ecommerceshopping.model.local.AppDatabase
 import com.projs.ecommerceshopping.repository.CartRepository
 import com.projs.ecommerceshopping.repository.ICartRepository
 import com.projs.ecommerceshopping.repository.ProductRepository
-import com.projs.ecommerceshopping.viewmodel.CartViewModel
-import com.projs.ecommerceshopping.viewmodel.CartViewModelFactory
-import com.projs.ecommerceshopping.viewmodel.ProductViewModel
-import com.projs.ecommerceshopping.viewmodel.ProductViewModelFactory
+import com.projs.ecommerceshopping.viewmodel.*
 
 class ProductFragment : Fragment() {
 
     private lateinit var binding: FragmentProductBinding
     private lateinit var viewModel: ProductViewModel
-    private lateinit var subCategoryId: String
 
-    companion object {
-        fun newInstance(subCategoryId: String): ProductFragment {
-            val fragment = ProductFragment()
-            val bundle = Bundle()
-            bundle.putString("subCategoryId", subCategoryId)
-            fragment.arguments = bundle
-            return fragment
-        }
-    }
+    private val sharedVM: SubCategorySharedViewModel by activityViewModels()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        subCategoryId = arguments?.getString("subCategoryId") ?: ""
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
 
         binding = FragmentProductBinding.inflate(inflater, container, false)
 
-        val productRepository = ProductRepository()
-        val productFactory = ProductViewModelFactory(productRepository)
-        viewModel = ViewModelProvider(this, productFactory)[ProductViewModel::class.java]
+        val productRepo = ProductRepository()
+        val factory = ProductViewModelFactory(productRepo)
+        viewModel = ViewModelProvider(this, factory)[ProductViewModel::class.java]
 
         val db = AppDatabase.getDatabase(requireContext())
-        val cartRepository: ICartRepository = CartRepository(db.cartDao())
+        val cartRepo: ICartRepository = CartRepository(db.cartDao())
 
-        val cartViewModel = ViewModelProvider(
+        val cartVM = ViewModelProvider(
             this,
-            CartViewModelFactory(cartRepository)
+            CartViewModelFactory(cartRepo)
         )[CartViewModel::class.java]
 
         binding.rvProducts.layoutManager = LinearLayoutManager(requireContext())
 
-        observeViewModel(cartViewModel)
+        sharedVM.subCategoryId.observe(viewLifecycleOwner) { subCategoryId ->
+            viewModel.fetchProducts(subCategoryId)
+        }
 
-        viewModel.fetchProducts(subCategoryId)
+        observeProducts(cartVM)
 
         return binding.root
     }
 
-    private fun observeViewModel(cartViewModel: CartViewModel) {
+    private fun observeProducts(cartVM: CartViewModel) {
 
-        cartViewModel.cartItems.observe(viewLifecycleOwner) { cartList ->
+        cartVM.cartItems.observe(viewLifecycleOwner) { cartList ->
 
             viewModel.products.observe(viewLifecycleOwner) { products ->
 
                 binding.rvProducts.adapter = ProductAdapter(
                     products,
                     cartList,
-
-                    onAdd = {
-                        cartViewModel.insert(it)
-                    },
-
+                    onAdd = { cartVM.insert(it) },
                     onIncrease = {
                         it.quantity++
-                        cartViewModel.update(it)
+                        cartVM.update(it)
                     },
-
                     onDecrease = {
                         if (it.quantity > 1) {
                             it.quantity--
-                            cartViewModel.update(it)
+                            cartVM.update(it)
                         } else {
-                            cartViewModel.delete(it)
+                            cartVM.delete(it)
                         }
                     }
                 )
             }
-        }
-
-        viewModel.error.observe(viewLifecycleOwner) {
-            Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
         }
     }
 }

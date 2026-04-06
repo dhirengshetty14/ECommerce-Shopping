@@ -55,10 +55,12 @@ class CategoryFragment : Fragment() {
 
     private fun openSubCategory(category: Category) {
 
-        val bundle = Bundle()
-        bundle.putString("id", category.category_id)
-        bundle.putString("name", category.category_name)
+        val action = CategoryFragmentDirections
+            .actionCategoryFragmentToSubCategoryFragment(
+                category.category_id,
+                category.category_name
+            )
 
-        findNavController().navigate(R.id.subCategoryFragment, bundle)
+        findNavController().navigate(action)
     }
 }

@@ -3,29 +3,38 @@ package com.projs.ecommerceshopping.model
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.viewpager2.widget.ViewPager2
+import com.projs.ecommerceshopping.R
 import com.projs.ecommerceshopping.databinding.FragmentPaymentBinding
+import com.projs.ecommerceshopping.viewmodel.CheckoutSharedViewModel
 
 class PaymentFragment : Fragment() {
 
     private lateinit var binding: FragmentPaymentBinding
 
-    companion object {
-        var selectedPayment = "Cash On Delivery"
-    }
+    private val sharedVM: CheckoutSharedViewModel by activityViewModels()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
 
         binding = FragmentPaymentBinding.inflate(inflater, container, false)
 
+        if (sharedVM.selectedPayment.value == null) {
+            sharedVM.selectedPayment.value = "Cash On Delivery"
+        }
+
         binding.radioCOD.setOnClickListener {
-            selectedPayment = "Cash On Delivery"
+            sharedVM.selectedPayment.value = "Cash On Delivery"
         }
 
         binding.radioCard.setOnClickListener {
-            selectedPayment = "Card"
+            sharedVM.selectedPayment.value = "Card"
         }
+
         binding.btnNextPayment.setOnClickListener {
-            (parentFragment as CheckoutFragment).goToTab(3)
+            requireActivity()
+                .findViewById<ViewPager2>(R.id.viewPager)
+                .currentItem = 3
         }
 
         return binding.root

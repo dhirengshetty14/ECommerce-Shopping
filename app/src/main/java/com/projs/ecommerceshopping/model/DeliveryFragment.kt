@@ -1,4 +1,5 @@
 package com.projs.ecommerceshopping.model
+
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -6,17 +7,17 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.projs.ecommerceshopping.databinding.DialogAddAddressBinding
 import com.projs.ecommerceshopping.databinding.FragmentDeliveryBinding
-import com.projs.ecommerceshopping.model.AddressAdapter
-import com.projs.ecommerceshopping.model.CheckoutFragment
 import com.projs.ecommerceshopping.model.local.AppDatabase
 import com.projs.ecommerceshopping.repository.AddressRepository
 import com.projs.ecommerceshopping.utils.SessionManager
 import com.projs.ecommerceshopping.viewmodel.AddressViewModel
 import com.projs.ecommerceshopping.viewmodel.AddressViewModelFactory
+import com.projs.ecommerceshopping.viewmodel.CheckoutSharedViewModel
 
 class DeliveryFragment : Fragment() {
 
@@ -24,9 +25,7 @@ class DeliveryFragment : Fragment() {
     private lateinit var viewModel: AddressViewModel
     private lateinit var adapter: AddressAdapter
 
-    companion object {
-        var selectedAddress = ""
-    }
+    private val sharedVM: CheckoutSharedViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -66,7 +65,7 @@ class DeliveryFragment : Fragment() {
         binding.rvAddress.layoutManager = LinearLayoutManager(requireContext())
 
         adapter = AddressAdapter(mutableListOf()) { selected ->
-            selectedAddress = selected.title + "\n" + selected.address
+            sharedVM.selectedAddress.value = selected.title + "\n" + selected.address
         }
 
         binding.rvAddress.adapter = adapter
@@ -76,8 +75,8 @@ class DeliveryFragment : Fragment() {
         viewModel.addresses.observe(viewLifecycleOwner) { list ->
             adapter.updateList(list.toMutableList())
 
-            if (list.isNotEmpty()) {
-                selectedAddress = list[0].title + "\n" + list[0].address
+            if (list.isNotEmpty() && sharedVM.selectedAddress.value == null) {
+                sharedVM.selectedAddress.value = list[0].title + "\n" + list[0].address
                 adapter.notifyDataSetChanged()
             }
         }

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.*
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,6 +19,8 @@ class SummaryFragment : Fragment() {
 
     private lateinit var binding: FragmentSummaryBinding
     private lateinit var cartViewModel: CartViewModel
+
+    private val sharedVM: CheckoutSharedViewModel by activityViewModels()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
 
@@ -45,12 +48,13 @@ class SummaryFragment : Fragment() {
             binding.tvTotal.text = "$$total"
         }
 
-        binding.tvAddress.text =
-            if (DeliveryFragment.selectedAddress.isNotEmpty())
-                DeliveryFragment.selectedAddress
-            else
-                "No address selected"
-        binding.tvPayment.text = PaymentFragment.selectedPayment
+        sharedVM.selectedAddress.observe(viewLifecycleOwner) { address ->
+            binding.tvAddress.text = if (!address.isNullOrEmpty()) address else "No address selected"
+        }
+
+        sharedVM.selectedPayment.observe(viewLifecycleOwner) { payment ->
+            binding.tvPayment.text = payment ?: "Cash On Delivery"
+        }
 
         binding.btnPlaceOrder.setOnClickListener {
 
@@ -58,10 +62,13 @@ class SummaryFragment : Fragment() {
 
             val total = cartItems.sumOf { it.price.toDouble() * it.quantity }
 
+            val finalAddress = sharedVM.selectedAddress.value ?: "No address selected"
+            val finalPayment = sharedVM.selectedPayment.value ?: "Cash On Delivery"
+
             val order = OrderEntity(
                 totalAmount = total,
-                address = DeliveryFragment.selectedAddress,
-                paymentMethod = PaymentFragment.selectedPayment
+                address = finalAddress,
+                paymentMethod = finalPayment
             )
 
             val orderItems = cartItems.map {
@@ -69,9 +76,7 @@ class SummaryFragment : Fragment() {
                 OrderItemEntity(
                     orderId = 0,
                     productName = it.product_name,
-
                     price = it.price.toDouble(),
-
                     quantity = it.quantity,
                     image = it.image
                 )
@@ -83,7 +88,8 @@ class SummaryFragment : Fragment() {
 
             Toast.makeText(requireContext(), "Order Placed!", Toast.LENGTH_SHORT).show()
 
-            findNavController().navigate(R.id.orderSuccessFragment)
+            val action = CheckoutFragmentDirections.actionCheckoutFragmentToOrderSuccessFragment()
+            requireParentFragment().findNavController().navigate(action)
         }
 
         return binding.root

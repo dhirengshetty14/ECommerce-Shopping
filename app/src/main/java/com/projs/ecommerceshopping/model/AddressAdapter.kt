@@ -29,28 +29,31 @@ class AddressAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
-        val currentPosition = holder.adapterPosition
-        if (currentPosition == RecyclerView.NO_POSITION) return
-
-        val item = list[currentPosition]
+        val item = list[position]
 
         holder.binding.tvTitle.text = item.title
         holder.binding.tvAddress.text = item.address
 
-        holder.binding.radioButton.isChecked = currentPosition == selectedPosition
+
+        holder.binding.radioButton.isClickable = false
+
+        holder.binding.radioButton.isChecked = position == selectedPosition
 
         holder.binding.root.setOnClickListener {
+
+            val previous = selectedPosition
+
             selectedPosition = holder.adapterPosition
-            if (selectedPosition != RecyclerView.NO_POSITION) {
-                onSelect(list[selectedPosition])
-                notifyDataSetChanged()
-            }
+
+            if (previous != -1) notifyItemChanged(previous)
+            notifyItemChanged(selectedPosition)
+
+            onSelect(item)
         }
     }
 
     fun updateList(newList: MutableList<AddressEntity>) {
         list = newList
-        selectedPosition = 0
         notifyDataSetChanged()
     }
 }
