@@ -3,8 +3,10 @@ package com.projs.ecommerceshopping.view
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
+import androidx.core.widget.addTextChangedListener
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import com.projs.ecommerceshopping.R
@@ -14,11 +16,14 @@ import com.projs.ecommerceshopping.model.CategoryFragment
 import com.projs.ecommerceshopping.model.CartFragment
 import com.projs.ecommerceshopping.model.OrdersFragment
 import com.projs.ecommerceshopping.utils.SessionManager
+import com.projs.ecommerceshopping.viewmodel.SearchViewModel
 
 class Home : AppCompatActivity() {
 
     private lateinit var binding: ActivityHomeBinding
     private lateinit var session: SessionManager
+
+    private val searchVM: SearchViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,6 +54,22 @@ class Home : AppCompatActivity() {
         binding.ivClear.setOnClickListener {
             binding.searchLayout.visibility = View.GONE
             binding.etSearch.setText("")
+            searchVM.query.value = ""
+
+            findNavController(R.id.nav_host).popBackStack()
+        }
+
+        binding.etSearch.addTextChangedListener {
+            val query=it.toString()
+            searchVM.query.value=query
+
+            if(query.isNotEmpty()){
+                val navController=findNavController(R.id.nav_host)
+
+                if(navController.currentDestination?.id != R.id.productFragment){
+                    navController.navigate(R.id.productFragment)
+                }
+            }
         }
     }
 

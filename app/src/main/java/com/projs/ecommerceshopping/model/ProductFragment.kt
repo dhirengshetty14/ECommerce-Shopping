@@ -18,6 +18,7 @@ class ProductFragment : Fragment() {
     private lateinit var binding: FragmentProductBinding
     private lateinit var viewModel: ProductViewModel
 
+    private val searchVM: SearchViewModel by activityViewModels()
     private val sharedVM: SubCategorySharedViewModel by activityViewModels()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -49,12 +50,16 @@ class ProductFragment : Fragment() {
 
     private fun observeProducts(cartVM: CartViewModel) {
 
+        searchVM.query.observe(viewLifecycleOwner) { query ->
+            viewModel.search(query)
+        }
+
         cartVM.cartItems.observe(viewLifecycleOwner) { cartList ->
 
-            viewModel.products.observe(viewLifecycleOwner) { products ->
+            viewModel.searchResults.observe(viewLifecycleOwner) { filtered ->
 
                 binding.rvProducts.adapter = ProductAdapter(
-                    products,
+                    filtered,
                     cartList,
                     onAdd = { cartVM.insert(it) },
                     onIncrease = {

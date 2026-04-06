@@ -14,6 +14,8 @@ class ProductViewModel(
 
     val products = MutableLiveData<List<Product>>()
     val error = MutableLiveData<String>()
+    val searchResults = MutableLiveData<List<Product>>()
+    private var fullList: List<Product> = emptyList()
 
     fun fetchProducts(subCategoryId: String) {
         viewModelScope.launch {
@@ -21,11 +23,41 @@ class ProductViewModel(
                 val response = repository.getProducts(subCategoryId)
                 if (response.status == 0) {
                     products.value = response.products
+                    fullList=response.products
+                    searchResults.value=response.products
                 } else {
                     error.value = response.message
                 }
             } catch (e: Exception) {
                 error.value = e.message
+            }
+        }
+    }
+    fun search(query: String) {
+        viewModelScope.launch {
+            try {
+
+                if (query.isEmpty()) {
+                    searchResults.value = fullList
+                    return@launch
+                }
+                if (query.length < 2) {
+                    searchResults.value = fullList
+                    return@launch
+                }
+                val response = repository.searchProduct(query)
+
+                if (response.status == 0 && response.product != null) {
+                    searchResults.value = listOf(response.product)
+                } else {
+                    val filtered = fullList.filter {
+                        it.product_name.contains(query, ignoreCase = true)
+                    }
+                    searchResults.value = filtered
+                }
+
+            } catch (e: Exception) {
+                searchResults.value = fullList
             }
         }
     }

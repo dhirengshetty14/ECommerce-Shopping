@@ -6,6 +6,7 @@ import com.projs.ecommerceshopping.model.response.CategoryResponse
 import com.projs.ecommerceshopping.model.response.LoginRequest
 import com.projs.ecommerceshopping.model.response.LoginResponse
 import com.projs.ecommerceshopping.model.response.ProductResponse
+import com.projs.ecommerceshopping.model.response.ProductSearchResponse
 import com.projs.ecommerceshopping.model.response.RegisterRequest
 import com.projs.ecommerceshopping.model.response.SubCategoryResponse
 import retrofit2.http.Body
@@ -45,4 +46,9 @@ interface ApiService {
     suspend fun addAddress(
         @Body request: AddAddressRequest
     ): ApiResponse
+
+    @GET("Product/search")
+    suspend fun searchProduct(
+        @Query("query") query: String
+    ): ProductSearchResponse
 }
