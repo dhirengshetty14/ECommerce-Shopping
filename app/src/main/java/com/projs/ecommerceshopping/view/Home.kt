@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import com.projs.ecommerceshopping.R
 import com.projs.ecommerceshopping.databinding.ActivityHomeBinding
+import com.projs.ecommerceshopping.databinding.NavHeaderBinding
 import com.projs.ecommerceshopping.model.CategoryFragment
 import com.projs.ecommerceshopping.model.CartFragment
 import com.projs.ecommerceshopping.model.OrdersFragment
@@ -50,6 +51,14 @@ class Home : AppCompatActivity() {
     }
 
     private fun setupDrawer() {
+
+        val headerBinding = NavHeaderBinding.bind(
+            binding.navigationView.getHeaderView(0)
+        )
+
+        headerBinding.tvUserName.text = "Welcome ${session.getUserName()}"
+        headerBinding.tvEmail.text = session.getEmail()
+        headerBinding.tvMobile.text = session.getMobile()
 
         binding.navigationView.setNavigationItemSelectedListener {
 

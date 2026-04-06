@@ -65,19 +65,18 @@
                 android:src="@android:drawable/ic_menu_close_clear_cancel"/>
         </LinearLayout>
 
-        <!-- FRAGMENT CONTAINER -->
         <FrameLayout
             android:id="@+id/fragmentContainer"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
     </LinearLayout>
 
-    <!--  NAVIGATION DRAWER -->
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/navigationView"
         android:layout_width="280dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"
+        app:headerLayout="@layout/nav_header"
         app:menu="@menu/nav_menu"/>
 
 </androidx.drawerlayout.widget.DrawerLayout>

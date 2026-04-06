@@ -4,7 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.projs.ecommerceshopping.network.ApiResponse
+import com.projs.ecommerceshopping.remote.ApiResponse
 import com.projs.ecommerceshopping.repository.IAuthRepository
 import com.projs.ecommerceshopping.model.response.LoginRequest
 import com.projs.ecommerceshopping.model.response.LoginResponse

@@ -62,7 +62,8 @@ class Login : AppCompatActivity() {
                 session.saveUser(
                     it.user.user_id,
                     it.user.full_name,
-                    it.user.email_id
+                    it.user.email_id,
+                    it.user.mobile_no
                 )
                 Toast.makeText(this, "Login Successful", Toast.LENGTH_SHORT).show()
 
