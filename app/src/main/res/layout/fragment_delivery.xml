@@ -7,32 +7,41 @@
     android:layout_height="match_parent">
 
     <TextView
+        android:id="@+id/tvTitle"
         android:text="Select Delivery Address"
-        android:textSize="16sp"
+        android:textSize="18sp"
+        android:textStyle="bold"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
-    <RadioGroup
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvAddress"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginTop="16dp"/>
 
-        <RadioButton
-            android:id="@+id/radioHome"
-            android:text="HOME\n402 W. Marine Way..."
-            android:layout_width="match_parent"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="16dp">
+
+        <Button
+            android:id="@+id/btnAddAddress"
+            android:text="ADD ADDRESS"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"/>
+
+        <Button
+            android:id="@+id/btnNextDelivery"
+            android:text="NEXT"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"/>
 
-        <RadioButton
-            android:id="@+id/radioOffice"
-            android:text="OFFICE\nCottonwood Creek Mall..."
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-    </RadioGroup>
-    <Button
-        android:id="@+id/btnNextDelivery"
-        android:text="NEXT"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+    </LinearLayout>
 
 </LinearLayout>

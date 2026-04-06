@@ -1,5 +1,6 @@
 package com.projs.ecommerceshopping.model
 
+import DeliveryFragment
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 

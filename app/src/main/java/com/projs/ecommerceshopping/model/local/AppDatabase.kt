@@ -6,14 +6,14 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 
 @Database(
-    entities = [CartItem::class, OrderEntity::class, OrderItemEntity::class],
-    version = 2
+    entities = [CartItem::class, OrderEntity::class, OrderItemEntity::class, AddressEntity::class],
+    version = 3
 )
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun cartDao(): CartDao
     abstract fun orderDao(): OrderDao
-
+    abstract fun addressDao(): AddressDao
     companion object {
 
         @Volatile

@@ -44,7 +44,11 @@ class SummaryFragment : Fragment() {
             binding.tvTotal.text = "$$total"
         }
 
-        binding.tvAddress.text = DeliveryFragment.selectedAddress
+        binding.tvAddress.text =
+            if (DeliveryFragment.selectedAddress.isNotEmpty())
+                DeliveryFragment.selectedAddress
+            else
+                "No address selected"
         binding.tvPayment.text = PaymentFragment.selectedPayment
 
         binding.btnPlaceOrder.setOnClickListener {
