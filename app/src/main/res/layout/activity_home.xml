@@ -6,13 +6,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- MAIN CONTENT -->
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <!-- TOP BAR -->
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="70dp"

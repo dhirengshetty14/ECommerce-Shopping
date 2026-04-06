@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="@android:color/white"
+    android:layout_width="match_parent"
+    android:layout_height="160dp">
+
+    <TextView
+        android:id="@+id/tvUserName"
+        android:text="Welcome John"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="#FF7A3D"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/tvEmail"
+        android:text="john@example.com"
+        android:textSize="14sp"
+        android:textColor="#6E7B8B"
+        android:layout_marginTop="8dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>
