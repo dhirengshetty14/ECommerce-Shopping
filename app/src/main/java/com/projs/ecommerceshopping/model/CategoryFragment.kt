@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.projs.ecommerceshopping.R
 import com.projs.ecommerceshopping.databinding.FragmentCategoryBinding
@@ -52,15 +53,12 @@ class CategoryFragment : Fragment() {
         }
     }
 
-    private fun openSubCategory(category: com.projs.ecommerceshopping.model.response.Category) {
-        val fragment = SubCategoryFragment.newInstance(
-            category.category_id,
-            category.category_name
-        )
+    private fun openSubCategory(category: Category) {
 
-        parentFragmentManager.beginTransaction()
-            .replace(R.id.fragmentContainer, fragment)
-            .addToBackStack(null)
-            .commit()
+        val bundle = Bundle()
+        bundle.putString("id", category.category_id)
+        bundle.putString("name", category.category_name)
+
+        findNavController().navigate(R.id.subCategoryFragment, bundle)
     }
 }

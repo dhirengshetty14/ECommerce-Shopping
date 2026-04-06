@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.projs.ecommerceshopping.R
 import com.projs.ecommerceshopping.databinding.FragmentCartBinding
@@ -74,11 +75,7 @@ class CartFragment : Fragment() {
     private fun setupCheckout() {
 
         binding.btnCheckout.setOnClickListener {
-
-            parentFragmentManager.beginTransaction()
-                .replace(R.id.fragmentContainer, CheckoutFragment())
-                .addToBackStack(null)
-                .commit()
+            findNavController().navigate(R.id.checkoutFragment)
         }
     }
 }

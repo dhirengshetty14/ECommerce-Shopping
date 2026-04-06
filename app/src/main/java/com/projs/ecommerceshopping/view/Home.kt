@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
 import com.projs.ecommerceshopping.R
 import com.projs.ecommerceshopping.databinding.ActivityHomeBinding
 import com.projs.ecommerceshopping.databinding.NavHeaderBinding
@@ -29,9 +31,9 @@ class Home : AppCompatActivity() {
         setupListeners()
         setupDrawer()
 
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.fragmentContainer, CategoryFragment())
-            .commit()
+//        supportFragmentManager.beginTransaction()
+//            .replace(R.id.fragmentContainer, CategoryFragment())
+//            .commit()
     }
 
     private fun setupListeners() {
@@ -60,27 +62,19 @@ class Home : AppCompatActivity() {
         headerBinding.tvEmail.text = session.getEmail()
         headerBinding.tvMobile.text = session.getMobile()
 
+        val navHostFragment = supportFragmentManager
+            .findFragmentById(R.id.nav_host) as NavHostFragment
+
+        val navController = navHostFragment.navController
         binding.navigationView.setNavigationItemSelectedListener {
 
             when (it.itemId) {
 
-                R.id.nav_home -> {
-                    supportFragmentManager.beginTransaction()
-                        .replace(R.id.fragmentContainer, CategoryFragment())
-                        .commit()
-                }
+                R.id.nav_home -> navController.navigate(R.id.categoryFragment)
 
-                R.id.nav_cart -> {
-                    supportFragmentManager.beginTransaction()
-                        .replace(R.id.fragmentContainer, CartFragment())
-                        .commit()
-                }
+                R.id.nav_cart -> navController.navigate(R.id.cartFragment)
 
-                R.id.nav_orders -> {
-                    supportFragmentManager.beginTransaction()
-                        .replace(R.id.fragmentContainer, OrdersFragment())
-                        .commit()
-                }
+                R.id.nav_orders -> navController.navigate(R.id.ordersFragment)
 
                 R.id.nav_logout -> {
                     session.logout()

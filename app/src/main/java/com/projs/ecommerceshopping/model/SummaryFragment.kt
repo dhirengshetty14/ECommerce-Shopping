@@ -5,6 +5,7 @@ import android.view.*
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.projs.ecommerceshopping.R
 import com.projs.ecommerceshopping.adapter.CartReadonlyAdapter
@@ -82,9 +83,7 @@ class SummaryFragment : Fragment() {
 
             Toast.makeText(requireContext(), "Order Placed!", Toast.LENGTH_SHORT).show()
 
-            requireActivity().supportFragmentManager.beginTransaction()
-                .replace(R.id.fragmentContainer, OrderSuccessFragment())
-                .commit()
+            findNavController().navigate(R.id.orderSuccessFragment)
         }
 
         return binding.root

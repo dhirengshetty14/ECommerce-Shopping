@@ -33,13 +33,12 @@ class OrdersAdapter(
 
         holder.binding.tvPrice.text = "Total: $${item.totalAmount}"
 
-        holder.binding.tvQty.text = "Items: --"  // optional placeholder
+        holder.binding.tvQty.text = "Items: --"
 
         holder.binding.tvAddress.text = item.address
 
         holder.binding.tvPayment.text = item.paymentMethod
 
-        // Optional: you can hide image or use placeholder
         holder.binding.ivProduct.setImageResource(android.R.drawable.ic_menu_report_image)
     }
 }

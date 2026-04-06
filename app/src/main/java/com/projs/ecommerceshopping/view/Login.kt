@@ -58,7 +58,6 @@ class Login : AppCompatActivity() {
 
         viewModel.loginResult.observe(this) {
             if (it.status == 0 && it.user!=null) {
-                //saving session
                 session.saveUser(
                     it.user.user_id,
                     it.user.full_name,

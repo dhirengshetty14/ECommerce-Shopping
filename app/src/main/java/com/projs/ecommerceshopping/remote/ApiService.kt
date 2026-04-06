@@ -29,8 +29,6 @@ interface ApiService {
     suspend fun getSubCategories(
 
 
-
-
         @Query("category_id") categoryId: String
     ): SubCategoryResponse
 

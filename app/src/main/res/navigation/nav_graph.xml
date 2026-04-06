@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:startDestination="@id/categoryFragment">
+
+    <fragment
+        android:id="@+id/categoryFragment"
+        android:name="com.projs.ecommerceshopping.model.CategoryFragment" />
+
+    <fragment
+        android:id="@+id/subCategoryFragment"
+        android:name="com.projs.ecommerceshopping.model.SubCategoryFragment">
+
+        <argument
+            android:name="id"
+            app:argType="string" />
+
+        <argument
+            android:name="name"
+            app:argType="string" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/productFragment"
+        android:name="com.projs.ecommerceshopping.model.ProductFragment" />
+
+    <fragment
+        android:id="@+id/cartFragment"
+        android:name="com.projs.ecommerceshopping.model.CartFragment" />
+
+    <fragment
+        android:id="@+id/checkoutFragment"
+        android:name="com.projs.ecommerceshopping.model.CheckoutFragment" />
+
+    <fragment
+        android:id="@+id/ordersFragment"
+        android:name="com.projs.ecommerceshopping.model.OrdersFragment" />
+
+    <fragment
+        android:id="@+id/orderSuccessFragment"
+        android:name="com.projs.ecommerceshopping.model.OrderSuccessFragment" />
+
+</navigation>
