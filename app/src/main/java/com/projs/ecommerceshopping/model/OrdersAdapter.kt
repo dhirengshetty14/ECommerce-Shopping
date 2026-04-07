@@ -4,6 +4,7 @@ package com.projs.ecommerceshopping.model
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.projs.ecommerceshopping.R
 import com.projs.ecommerceshopping.databinding.ItemOrderBinding
 import com.projs.ecommerceshopping.model.local.OrderEntity
 
@@ -39,6 +40,6 @@ class OrdersAdapter(
 
         holder.binding.tvPayment.text = item.paymentMethod
 
-        holder.binding.ivProduct.setImageResource(android.R.drawable.ic_menu_report_image)
+        holder.binding.ivProduct.setImageResource(R.drawable.order_icon)
     }
 }
