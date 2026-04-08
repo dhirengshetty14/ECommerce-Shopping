@@ -7,13 +7,14 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.bumptech.glide.Glide
 import com.projs.ecommerceshopping.databinding.FragmentProductDetailsBinding
 import com.projs.ecommerceshopping.model.local.AppDatabase
 import com.projs.ecommerceshopping.model.local.CartItem
 import com.projs.ecommerceshopping.repository.CartRepository
 import com.projs.ecommerceshopping.repository.ICartRepository
 import com.projs.ecommerceshopping.repository.ProductRepository
+import com.projs.ecommerceshopping.view.ReviewAdapter
+import com.projs.ecommerceshopping.view.SpecAdapter
 import com.projs.ecommerceshopping.viewmodel.CartViewModel
 import com.projs.ecommerceshopping.viewmodel.CartViewModelFactory
 import com.projs.ecommerceshopping.viewmodel.ProductViewModel

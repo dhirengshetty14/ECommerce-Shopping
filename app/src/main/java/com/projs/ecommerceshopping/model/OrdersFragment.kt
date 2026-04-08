@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.projs.ecommerceshopping.databinding.FragmentOrdersBinding
 import com.projs.ecommerceshopping.model.local.AppDatabase
 import com.projs.ecommerceshopping.repository.OrderRepository
+import com.projs.ecommerceshopping.view.OrdersAdapter
 import com.projs.ecommerceshopping.viewmodel.*
 
 class OrdersFragment : Fragment() {

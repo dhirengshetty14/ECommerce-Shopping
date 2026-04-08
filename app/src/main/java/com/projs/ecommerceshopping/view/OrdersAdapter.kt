@@ -1,4 +1,4 @@
-package com.projs.ecommerceshopping.model
+package com.projs.ecommerceshopping.view
 
 
 import android.view.LayoutInflater

@@ -15,6 +15,7 @@ import com.projs.ecommerceshopping.databinding.FragmentDeliveryBinding
 import com.projs.ecommerceshopping.model.local.AppDatabase
 import com.projs.ecommerceshopping.repository.AddressRepository
 import com.projs.ecommerceshopping.utils.SessionManager
+import com.projs.ecommerceshopping.view.AddressAdapter
 import com.projs.ecommerceshopping.viewmodel.AddressViewModel
 import com.projs.ecommerceshopping.viewmodel.AddressViewModelFactory
 import com.projs.ecommerceshopping.viewmodel.CheckoutSharedViewModel

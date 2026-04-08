@@ -13,6 +13,7 @@ import com.projs.ecommerceshopping.databinding.FragmentCartBinding
 import com.projs.ecommerceshopping.model.local.AppDatabase
 import com.projs.ecommerceshopping.repository.CartRepository
 import com.projs.ecommerceshopping.repository.ICartRepository
+import com.projs.ecommerceshopping.view.CartAdapter
 import com.projs.ecommerceshopping.viewmodel.CartViewModel
 import com.projs.ecommerceshopping.viewmodel.CartViewModelFactory
 

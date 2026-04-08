@@ -13,6 +13,7 @@ import com.projs.ecommerceshopping.model.local.AppDatabase
 import com.projs.ecommerceshopping.repository.CartRepository
 import com.projs.ecommerceshopping.repository.ICartRepository
 import com.projs.ecommerceshopping.repository.ProductRepository
+import com.projs.ecommerceshopping.view.ProductAdapter
 import com.projs.ecommerceshopping.viewmodel.*
 
 class ProductFragment : Fragment() {

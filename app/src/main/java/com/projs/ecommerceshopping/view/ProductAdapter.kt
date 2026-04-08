@@ -1,5 +1,6 @@
-package com.projs.ecommerceshopping.model
+package com.projs.ecommerceshopping.view
 
+import android.R
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -42,7 +43,7 @@ class ProductAdapter(
 
         Glide.with(holder.itemView.context)
             .load("http://103.163.198.93/myshop/images/" + product.product_image_url)
-            .error(android.R.drawable.ic_dialog_alert)
+            .error(R.drawable.ic_dialog_alert)
             .into(holder.binding.ivProduct)
 
         holder.binding.root.setOnClickListener {
